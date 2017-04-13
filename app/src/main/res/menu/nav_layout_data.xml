@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/love" android:title="ሴቭ ዝተገብረ"></item>
+        <item android:title="ትምህርተ ሃይማኖት" android:menuCategory="secondary">
+            <menu>
+                <item android:id="@+id/category1" android:title="5 አዕማደ ምስጢር"/>
+                <item android:id="@+id/category2" android:title="7 ምስጢራተ ቤተክርስቲያን"/>
+                <item android:id="@+id/category3" android:title="ካልኦት ትምህርትታት"/>
+            </menu>
+        </item>
+        <item android:title="ዓይነት ጽሑፋት">
+            <menu>
+            <item android:id="@+id/category4" android:title="ስብከት ወንጌል">ስብከት ወንጌል</item>
+            <item android:id="@+id/category5" android:title="ነገረ ቅዱሳን">ነገረ ቅዱሳን</item>
+            <item android:id="@+id/category6" android:title="ብሂል ኣበው">ብሂል ኣበው</item>
+            <item android:id="@+id/category7" android:title="ሥነ - ጽሑፍ">ሥነ - ጽሑፍ</item>
+            </menu>
+        </item>
+</menu>

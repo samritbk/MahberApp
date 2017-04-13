@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="300dp">
+    <android.support.design.widget.CollapsingToolbarLayout
+        android:id="@+id/collapsingToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:foregroundGravity="bottom|right"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true"
+        app:contentScrim="?attr/colorPrimary"
+        app:expandedTitleMarginStart="@dimen/material_6"
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/extended_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:layout_marginLeft="@dimen/material_16"
+                android:paddingBottom="@dimen/material_16">
+                <TextView
+                    android:id="@+id/bigArticleTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:text="ምስ ጐይታናን መድሓኒናን ኢየሱስ"
+                    android:textStyle="bold"
+                    android:textSize="30dp"
+                    android:layout_above="@+id/topDate"
+                    android:transitionName="title"/>
+                <TextView
+                    android:id="@+id/topDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#C5CAE9"
+                    android:text="18 የካቲት 2016"
+                    android:textStyle="normal"
+                    android:textSize="16dp"
+                    android:layout_marginTop="@dimen/material_6"
+                    android:layout_alignParentBottom="true"
+                    android:transitionName="date"/>
+            </RelativeLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:background="@android:color/transparent"
+            app:layout_collapseMode="pin"
+            app:elevation="4dp">
+
+        </android.support.v7.widget.Toolbar>
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="mini"
+            app:layout_anchor="@id/collapsingToolbar"
+            android:layout_gravity="bottom|end"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_anchorGravity="bottom|right|end"/>
+    </android.support.design.widget.CollapsingToolbarLayout>
+</android.support.design.widget.AppBarLayout>

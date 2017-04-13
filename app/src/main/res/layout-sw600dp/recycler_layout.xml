@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tool="http://schemas.android.com/apk/res-auto"
+    tool:layout_collapseParallaxMultiplier="1.0"
+    android:layout_marginStart="64dp"
+    android:layout_marginLeft="64dp"
+    android:layout_marginEnd="64dp"
+    android:layout_marginRight="64dp"
+    android:background="?android:attr/selectableItemBackground">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/material_6"
+        android:layout_marginStart="@dimen/material_6"
+        android:layout_marginTop="@dimen/material_6"
+        android:layout_marginBottom="@dimen/material_3"
+        android:foreground="?attr/selectableItemBackground">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:src="@drawable/w"
+            android:scaleType="fitXY"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/dateCreated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2 ሰነ 2016"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            android:layout_below="@id/img"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="@dimen/material_16"
+            android:paddingBottom="@dimen/material_3"
+            android:textColor="#777"/>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ደብዳቤ ምስ ኣንበብዋ"
+            android:textSize="24sp"
+            android:textStyle="normal"
+            android:layout_below="@id/dateCreated"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="@dimen/material_2"
+            android:paddingBottom="@dimen/material_2"/>
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ነታ ደብዳቤ ምስ ኣንበብዋ ዲ.በረኸት ግብረ መልሲ ናይ ዲ.መርሃዊ ካብ ገጹ ንምንባብ ናብ ዲ.መርሃዊ  ገጹ ጠመተ። ዲ.መርሃዊ ክልቲኣን ኣእዳዉ ኣጣሚሩ ዝን በለ።"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            android:layout_below="@id/title"
+            android:paddingTop="1dp"
+            android:paddingBottom="@dimen/material_16"
+            android:paddingStart="@dimen/material_16"
+            android:paddingEnd="@dimen/material_16"
+            android:textColor="#555" />
+
+            <!--<Button-->
+                <!--android:id="@+id/shareButton"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="ሼር"-->
+                <!--android:layout_below="@id/subtitle"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--android:layout_marginStart="@dimen/material_3"-->
+                <!--android:layout_marginEnd="@dimen/material_3"-->
+                <!--android:layout_marginTop="@dimen/material_6"-->
+                <!--android:layout_marginBottom="@dimen/material_3"-->
+                <!--android:clickable="true"-->
+                <!--style="@style/Widget.AppCompat.Button.Borderless"-->
+                <!--android:layout_marginRight="@dimen/material_16" />-->
+            <!--<Button-->
+                <!--android:id="@+id/faButton"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="ኣንብብ"-->
+                <!--android:layout_below="@id/subtitle"-->
+                <!--android:layout_toRightOf="@id/shareButton"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--android:layout_marginTop="@dimen/material_6"-->
+                <!--android:layout_marginBottom="@dimen/material_3"-->
+                <!--android:clickable="true"-->
+                <!--style="@style/Widget.AppCompat.Button.Borderless"-->
+                <!--android:layout_marginRight="@dimen/material_16" />-->
+        <!--<Button-->
+            <!--android:id="@+id/viewButton"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:text="View"-->
+            <!--android:layout_below="@id/title"-->
+            <!--android:layout_toRightOf="@id/shareButton"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:padding="@dimen/material_2"-->
+            <!--/>-->
+    </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
