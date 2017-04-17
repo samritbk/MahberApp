@@ -80,27 +80,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 holder.imageHolder.setVisibility(View.GONE);
             }
 
-
-            Log.e("tag", "Can also do image");
             final int positionOfClicked= position;
 
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "Clicked"+positionOfClicked, Toast.LENGTH_LONG).show();
                     MainActivity.startReadActivity(context, positionOfClicked);
                 }
             });
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("tag","ok");
         }
 
     }
 
     public void addList(JSONArray list){
         this.data = list;
-        Log.v("da",list.toString());
         notifyDataSetChanged();
     }
 

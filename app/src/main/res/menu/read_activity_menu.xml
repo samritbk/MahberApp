@@ -5,7 +5,7 @@
         android:id="@+id/ic_love"
         android:title="Share"
         app:showAsAction="always|withText"
-        android:icon="@drawable/ic_favorite_white_24dp"/>
+        android:icon="@drawable/ic_favorite_border_white_24dp"/>
     <item
         android:id="@+id/ic_share"
         android:title="Share"
