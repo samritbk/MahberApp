@@ -24,6 +24,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,6 +68,7 @@ import Ease.SnackBar;
 import ViewHolder.ViewHolderAdapter;
 
 import static com.zinalabs.mahberkidanemihret.R.id.categoryName;
+import static com.zinalabs.mahberkidanemihret.R.id.love;
 import static com.zinalabs.mahberkidanemihret.R.id.nvView;
 import static java.security.AccessController.getContext;
 
@@ -74,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
     Context context;
     Toolbar toolbar;
-    ListView listview;
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
     CoordinatorLayout parent;
@@ -83,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
     NavigationView nvView;
     ProgressBar progressBar;
     static JSONArray data;
-    String responseOutside="null";
     SnackBar snackBar;
 
     RequestQueue requestQueue = null;
@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
         context = toContext;
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         parent = (CoordinatorLayout) findViewById(R.id.parent);
-        //listview= (ListView) findViewById(R.id.listview);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefresh);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -137,11 +136,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if (recyclerAdapter.getItemCount() != 0) {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
 
         nvView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
+                    case R.id.love:
+                        Intent loveActivity= new Intent(context, LovesActivity.class);
+                        startActivity(loveActivity);
+
+                        break;
                     case R.id.category1:
                         makeWebRequest(requestQueue, url+"?id=1");
 
@@ -181,6 +188,25 @@ public class MainActivity extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int menuId=item.getItemId();
+
+        switch(menuId){
+            case R.id.ic_love:
+                Intent loveActivity=new Intent(context, LovesActivity.class);
+                startActivity(loveActivity);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void enableDrawerHamBurger(Context context, DrawerLayout drawerLayout, Toolbar toolbar, int appname) {
 
         if (getSupportActionBar() != null) {
@@ -200,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         // Set the drawer toggle as the DrawerListener
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -210,31 +235,37 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (recyclerAdapter.getItemCount() != 0) {
-            progressBar.setVisibility(View.INVISIBLE);
-        }
+
     }
 
     public static void startReadActivity(Context context, int positionOfClicked) {
         Intent ReadActivity = new Intent(context, com.zinalabs.mahberkidanemihret.ReadActivity.class);
 
         try {
-            int article_id = data.getJSONObject(positionOfClicked).getInt("post_id");
-            String article_title = data.getJSONObject(positionOfClicked).getString("post_title");
-            String article_text = data.getJSONObject(positionOfClicked).getString("post_text");
-            String article_text_short= data.getJSONObject(positionOfClicked).getString("post_text");
-            article_text_short= Html.fromHtml(article_text_short.substring(0, 120))+"...";
+            int post_id = data.getJSONObject(positionOfClicked).getInt("post_id");
+            String post_title = data.getJSONObject(positionOfClicked).getString("post_title");
+            String post_text = data.getJSONObject(positionOfClicked).getString("post_text");
+
+            String post_text_short=null;
+            if(post_text.length() > 120){
+                post_text_short= Html.fromHtml(post_text.substring(0, 120))+"...";
+            }else{
+                post_text_short= Html.fromHtml(post_text).toString();
+            }
+
             String date_created = data.getJSONObject(positionOfClicked).getString("date_created");
-            String article_url = data.getJSONObject(positionOfClicked).getString("url");
+            String post_category_name = data.getJSONObject(positionOfClicked).getString("post_category_name");
+            String post_url = data.getJSONObject(positionOfClicked).getString("url");
             int related = data.getJSONObject(positionOfClicked).getInt("related");
 
 
-            ReadActivity.putExtra("post_id", article_id);
-            ReadActivity.putExtra("post_title", article_title);
-            ReadActivity.putExtra("post_text", article_text);
-            ReadActivity.putExtra("post_text_short", article_text_short);
+            ReadActivity.putExtra("post_id", post_id);
+            ReadActivity.putExtra("post_title", post_title);
+            ReadActivity.putExtra("post_text", post_text);
+            ReadActivity.putExtra("post_text_short", post_text_short);
             ReadActivity.putExtra("date_created", date_created);
-            ReadActivity.putExtra("url", article_url);
+            ReadActivity.putExtra("post_category_name", post_category_name);
+            ReadActivity.putExtra("url", post_url);
             ReadActivity.putExtra("related", related);
 
             if(related != 0) {
@@ -304,7 +335,6 @@ public class MainActivity extends AppCompatActivity {
 
         requestQueue.add(stringRequest);
 
-        Toast.makeText(context, url, Toast.LENGTH_LONG).show();
     }
 
     private void addDataToAdapter(final String response){

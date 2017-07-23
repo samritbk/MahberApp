@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawerLayout">
     <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true">
-            <!--android:stateListAnimator="@animator/app_elevation"-->
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -28,18 +24,10 @@
         </android.support.design.widget.AppBarLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <android.support.v7.widget.CardView
-                    android:id="@+id/notifCardView"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_margin="@dimen/material_6"
-                    android:visibility="gone">
-
-                </android.support.v7.widget.CardView>
+                android:layout_height="match_parent"
+                android:layout_marginTop="?attr/actionBarSize">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
-                    android:layout_below="@id/notifCardView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
                 <!--<ListView-->
@@ -49,13 +37,3 @@
                 <!--android:layout_marginTop="?attr/actionBarSize"></ListView>-->
             </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nvView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/navigation_header"
-        app:menu="@menu/nav_layout_data"
-        android:background="@android:color/white" >
-    </android.support.design.widget.NavigationView>
-</android.support.v4.widget.DrawerLayout>
