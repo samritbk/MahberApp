@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.zinalabs.mahberkidanemihret.LovesActivity;
 import com.zinalabs.mahberkidanemihret.MainActivity;
 import com.zinalabs.mahberkidanemihret.R;
 import com.zinalabs.mahberkidanemihret.ReadActivity;
@@ -32,7 +33,7 @@ import ViewHolder.ViewHolderAdapter;
  * Created by Beraki on 12/17/2016.
  */
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolderAdapter> {
+public class LoveAdapter extends RecyclerView.Adapter<LoveAdapter.ViewHolderAdapter> {
 
     //ArrayList<String[]> data= new ArrayList<>();
     JSONArray data=new JSONArray();
@@ -41,7 +42,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     //String server = "http://192.168.0.102/church/";
     public static String server = "http://eriotc.org/";
 
-    public RecyclerAdapter(Context context){
+    public LoveAdapter(Context context){
         inflater=LayoutInflater.from(context);
     }
 
@@ -73,10 +74,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             String date_created=post.getString("date_created");
 
 
-                holder.articleTitle.setText(post_title);
-                holder.subtitle.setText(post_text_short);
-                holder.categoryName.setText(post_category_name);
-                holder.dateCreated.setText(date_created);
+            holder.articleTitle.setText(post_title);
+            holder.subtitle.setText(post_text_short);
+            holder.categoryName.setText(post_category_name);
+            holder.dateCreated.setText(date_created);
 
             Log.d("tagger", post.get("related")+"");
 
@@ -100,8 +101,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("mahbera",positionOfClicked+"");
-                MainActivity.startReadActivity(context, positionOfClicked);
+                LovesActivity.startReadActivity(context, positionOfClicked);
             }
         });
     }

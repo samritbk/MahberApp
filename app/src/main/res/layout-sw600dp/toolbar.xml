@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.AppBarLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+    app:statusBarScrim="?attr/colorPrimaryDark"
+    app:contentScrim="@android:color/transparent"
+    app:titleEnabled="false">
     <!--android:stateListAnimator="@animator/app_elevation"-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary">
+        android:layout_height="168dp"
+        android:background="@color/colorPrimary"
+        app:layout_collapseMode="pin">
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

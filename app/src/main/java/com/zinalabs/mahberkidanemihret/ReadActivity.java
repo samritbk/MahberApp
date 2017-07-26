@@ -7,8 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,29 +14,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Map;
-import java.util.Set;
-
-import Adapter.RecyclerAdapter;
-import Ease.SnackBar;
 
 public class ReadActivity extends AppCompatActivity {
 
@@ -48,13 +34,18 @@ public class ReadActivity extends AppCompatActivity {
     TextView articleTitle;
     TextView dateCreated;
     WebView webview;
-    String article_title;
-    String article_text;
+    int post_id;
+    String post_title;
+    String post_text;
+    String post_text_short;
     String date_created;
-    String article_url;
+    String post_category_name;
+    String post_url;
     ImageView extended_background;
     CollapsingToolbarLayout collapsingToolbar;
     Context context;
+    JSONObject articleObject;
+
 
     private void initialization(){
         context = this;
@@ -74,6 +65,76 @@ public class ReadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read);
         initialization();
+        toolbarSettings(toolbar);
+
+
+        Bundle extras=this.getIntent().getExtras();
+        if(extras.getString("post_title") != null && extras.getString("post_title") != null){
+            post_id =extras.getInt("post_id");
+            post_title =extras.getString("post_title");
+            post_text =extras.getString("post_text");
+            post_text_short =extras.getString("post_text_short");
+            date_created=extras.getString("date_created");
+            post_category_name =extras.getString("post_category_name");
+            post_url =extras.getString("url");
+            int related = extras.getInt("related");
+            String img_name=extras.getString("img_name");
+
+            try {
+                articleObject=makeArticleObject(post_id,
+                        post_title,
+                        post_text,
+                        post_text_short,
+                        date_created,
+                        post_category_name,
+                        post_url,
+                        related,
+                        img_name);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if(related != 0){
+
+                Picasso.with(context).load(img_name).fit().into(extended_background);
+            }
+
+            changeTitle(post_title);
+            changeDate(date_created);
+            changeWebview(post_text);
+
+        }
+
+    }
+
+    private JSONObject makeArticleObject(int post_id,
+                                   String post_title,
+                                   String post_text,
+                                   String post_text_short,
+                                   String date_created,
+                                   String post_category_name,
+                                   String post_url,
+                                   int related,
+                                   String img_name) throws JSONException {
+
+        JSONObject articleObject=new JSONObject();
+
+            articleObject.put("post_id", post_id);
+            articleObject.put("post_title", post_title);
+            articleObject.put("post_text", post_text);
+            articleObject.put("post_text_short", post_text_short);
+            articleObject.put("date_created", date_created);
+            articleObject.put("post_category_name", post_category_name);
+            articleObject.put("post_url", post_url);
+            articleObject.put("related", related);
+            if(related != 0){
+                articleObject.put("img_name", img_name);
+            }
+
+        return articleObject;
+    }
+
+    private void toolbarSettings(Toolbar toolbar) {
         setSupportActionBar(toolbar);
         collapsingToolbar.setTitleEnabled(false);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
@@ -82,42 +143,48 @@ public class ReadActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+    }
 
-        Bundle extras=this.getIntent().getExtras();
-        if(extras.getString("post_title") != null && extras.getString("post_title") != null){
-            article_title=extras.getString("post_title");
-            article_text=extras.getString("post_text");
-            date_created=extras.getString("date_created");
-            article_url=extras.getString("url");
+    private void changeTitle(String post_title) {
+        bigArticleTitle.setText(post_title);
+    }
 
-            Toast.makeText(context, extras.getInt("related")+"", Toast.LENGTH_LONG).show();
-            if(extras.getInt("related") != 0){
-                String img_name=extras.getString("img_name");
-                Picasso.with(context).load(img_name).fit().into(extended_background);
-                extended_background.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(context, "Ok", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
+    private void changeDate(String date_created) {
+        topDate.setText(date_created);
+    }
 
-            bigArticleTitle.setText(article_title);
-            topDate.setText(date_created);
-            //articleTitle.setText(article_title);
-            //dateCreated.setText(date_created);
-            WebSettings webViewSetting=webview.getSettings();
-            webViewSetting.setTextSize(WebSettings.TextSize.NORMAL);
-            article_text= "<div style='font-size:18px; text-align: justify; line-height:30px;'>"+article_text+"</div>";
-            webview.loadData(article_text,"text/html; charset=UTF-8;", null);
-        }
-        Toast.makeText(this, extras.getString("post_title"), Toast.LENGTH_LONG).show();
+    private void changeWebview(String post_text){
+        WebSettings webViewSetting=webview.getSettings();
+        webViewSetting.setTextSize(WebSettings.TextSize.NORMAL);
+        post_text= "<div style='font-size:18px; text-align: justify; line-height:30px;'>"+post_text+"</div>";
+        webview.loadData(post_text,"text/html; charset=UTF-8;", null);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.read_activity_menu, menu);
 
+            MenuItem lovesMenu=menu.getItem(0);
+
+            if(getLoves("posts", post_id)){
+                lovesMenu.setIcon(R.drawable.ic_favorite_white_24dp);
+            }else{
+                lovesMenu.setIcon(R.drawable.ic_favorite_border_white_24dp);
+            }
+
+        return true;
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        toolbar.setTitle("");
+
+        //articleTitle.setText(post_text);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
         return true;
     }
 
@@ -129,10 +196,10 @@ public class ReadActivity extends AppCompatActivity {
                 Intent share = new Intent();
                 share.setAction(Intent.ACTION_SEND);
                 share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_TEXT, article_title+"\n"+article_url);
+                share.putExtra(Intent.EXTRA_TEXT, post_title +"\n"+ post_url);
 
                 startActivity(share);
-                //item.setIcon(R.drawable.ripple);
+
                 break;
             case R.id.ic_love:
                 Drawable iconDrawable=item.getIcon();
@@ -144,52 +211,89 @@ public class ReadActivity extends AppCompatActivity {
                 }else{
                     item.setIcon(R.drawable.ic_favorite_border_white_24dp);
                 }
-                //loveArticle("");
+
+                try {
+                    loveArticle("posts", articleObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void loveArticle(String sharedName) throws JSONException {
+    private Boolean getLoves(String sharedName, int current_article_id){
+        SharedPreferences sharedPreferences = getSharedPreferences(sharedName,0);
+        String loves=sharedPreferences.getString("loves","null");
+
+        if(!loves.equals("null")){
+
+            JSONArray lovesArray= null;
+            try {
+                lovesArray = new JSONArray(loves);
+                int length=lovesArray.length();
+
+                for(int i=0; i < length; i++){
+                    int article_id=lovesArray.getJSONObject(i).getInt("post_id");
+                    if(article_id == current_article_id){
+                        Log.e("tag", article_id+"==="+current_article_id);
+                        return true;
+                    }
+                }
+                return false;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+    private void loveArticle(String sharedName, JSONObject articleObject) throws JSONException {
         SharedPreferences sharedPreferences = getSharedPreferences(sharedName,0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.apply();
 
-        String loves=sharedPreferences.getString("loves", null);
+        String sharedJsonName="loves";
 
-        if(loves != null){
-            JSONArray jsonArray= new JSONArray(loves);
-            int length=jsonArray.length();
-            if(length != 0) {
-                for (int i = 0; i < length; i++) {
+        String loves=sharedPreferences.getString(sharedJsonName,"null");
 
-                    JSONObject jsonObject=jsonArray.getJSONObject(i);
-                    //jsonObject.getInt
+        if(loves.equals("null")){
+            JSONArray lovesArray= new JSONArray();
+            lovesArray.put(articleObject);
 
+            editor.putString(sharedJsonName, lovesArray.toString());
+            editor.commit();
+
+        }else{
+            if(!loves.equals("null")){
+                JSONArray lovesArray= new JSONArray(loves);
+                Log.e("tag",lovesArray.length()+"");
+                int length=lovesArray.length();
+                boolean exists=false;
+                for(int i=0; i < length; i++){
+                    int post_id=lovesArray.getJSONObject(i).getInt("post_id");
+                    if(post_id == articleObject.getInt("post_id")){
+                        lovesArray.remove(i);
+                        editor.remove(sharedJsonName);
+                        editor.putString(sharedJsonName, lovesArray.toString());
+                        editor.commit();
+                        exists=true;
+                        break;
+                    }
+                }
+                if(!exists){
+                    lovesArray.put(articleObject);
+                    Log.e("tag",lovesArray.length()+"");
+                    editor.remove(sharedJsonName);
+                    editor.putString(sharedJsonName, lovesArray.toString());
+                    editor.commit();
                 }
             }
+
         }
 
-
-    }
-    private void picassioToViewBackground(String imageUri, final View view){
-        final ImageView img = new ImageView(this);
-        Picasso.with(this)
-        .load(imageUri)
-        .fit()
-        .centerCrop()
-        .into(img, new Callback() {
-            @Override
-            public void onSuccess() {
-                view.setBackground(img.getDrawable());
-            }
-
-            @Override
-            public void onError() {
-                Toast.makeText(context, "Error", Toast.LENGTH_LONG).show();
-            }
-        });
     }
     public static Bitmap getBitmap(Drawable drawable) {
         Bitmap result;
@@ -213,22 +317,10 @@ public class ReadActivity extends AppCompatActivity {
         }
         return result;
     }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        toolbar.setTitle("");
-
-        //articleTitle.setText(article_text);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return super.onSupportNavigateUp();
-    }
 
     @Override
     protected void onStop() {
         super.onStop();
     }
+
 }

@@ -26,12 +26,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
+            android:background="#FFFFFF"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
                         <WebView
                             android:id="@+id/webview"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:textSize="28sp"/>
+                            android:textSize="28sp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"/>
         </android.support.v4.widget.NestedScrollView>
         <!--<ListView-->
                     <!--android:id="@+id/listview"-->
