@@ -28,14 +28,66 @@
             android:scrollbars="none"
             android:background="#FFFFFF"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-                        <WebView
-                            android:id="@+id/webview"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <WebView
+                    android:id="@+id/webview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="28sp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"/>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:background="#FFF"
+                    android:layout_marginBottom="10dp">
+                    <ImageButton
+                        android:id="@+id/ic_share_IB"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_share"
+                        android:layout_weight="1"
+                        style="@style/Widget.AppCompat.Button.Borderless"/>
+                    <ImageButton
+                        android:id="@+id/ic_love_IB"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_favorite_border"
+                        android:layout_weight="1"
+                        style="@style/Widget.AppCompat.Button.Borderless"/>
+                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:textSize="28sp"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"/>
+                            android:text="ሼር"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:paddingTop="80dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="ሴቭ"
+                            android:gravity="center"
+                            android:layout_weight="1"
+                            android:paddingTop="80dp"/>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
         <!--<ListView-->
                     <!--android:id="@+id/listview"-->
@@ -49,7 +101,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white" >
+        android:background="@android:color/white"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark">
         <TextView
             android:id="@+id/f"
             android:layout_width="match_parent"

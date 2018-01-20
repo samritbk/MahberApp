@@ -75,7 +75,7 @@ public class LovesActivity extends AppCompatActivity {
 
         initialization(this);
 
-        toolbar.setTitle("Loves");
+        getSupportActionBar().setTitle("ሴቭ ዝተገብረ");
 
         recyclerAdapter = new LoveAdapter(context);
         recyclerView.setAdapter(recyclerAdapter);

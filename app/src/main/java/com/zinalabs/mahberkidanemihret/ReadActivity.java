@@ -14,11 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -26,7 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ReadActivity extends AppCompatActivity {
+public class ReadActivity extends AppCompatActivity implements View.OnClickListener {
 
     Toolbar toolbar;
     TextView bigArticleTitle;
@@ -45,7 +46,8 @@ public class ReadActivity extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbar;
     Context context;
     JSONObject articleObject;
-
+    ImageButton ic_share_IB;
+    ImageButton ic_love_IB;
 
     private void initialization(){
         context = this;
@@ -58,6 +60,9 @@ public class ReadActivity extends AppCompatActivity {
         topDate = (TextView) findViewById(R.id.topDate);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
         extended_background = (ImageView) findViewById(R.id.extended_background);
+        ic_share_IB = (ImageButton) findViewById(R.id.ic_share_IB);
+        ic_love_IB = (ImageButton) findViewById(R.id.ic_love_IB);
+
     }
 
     @Override
@@ -102,7 +107,15 @@ public class ReadActivity extends AppCompatActivity {
             changeTitle(post_title);
             changeDate(date_created);
             changeWebview(post_text);
+            ic_share_IB.setOnClickListener(this);
+            ic_love_IB.setOnClickListener(this);
 
+
+            if(getLoves("posts", post_id)){
+                ic_love_IB.setImageResource(R.drawable.ic_favorite);
+            }else{
+                ic_love_IB.setImageResource(R.drawable.ic_favorite_border);
+            }
         }
 
     }
@@ -219,14 +232,12 @@ public class ReadActivity extends AppCompatActivity {
                 }
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     private Boolean getLoves(String sharedName, int current_article_id){
         SharedPreferences sharedPreferences = getSharedPreferences(sharedName,0);
         String loves=sharedPreferences.getString("loves","null");
-
         if(!loves.equals("null")){
 
             JSONArray lovesArray= null;
@@ -323,4 +334,36 @@ public class ReadActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    @Override
+    public void onClick(View view) {
+        int id= view.getId();
+
+        switch(id){
+            case R.id.ic_share_IB:
+                Intent share = new Intent();
+                share.setAction(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, post_title +"\n"+ post_url);
+
+                startActivity(share);
+                break;
+            case R.id.ic_love_IB:
+                Drawable iconDrawable=ic_love_IB.getDrawable();
+
+                Drawable borderLove=getResources().getDrawable(R.drawable.ic_favorite_border);
+
+                if(getBitmap(iconDrawable).sameAs(getBitmap(borderLove))){
+                    ic_love_IB.setImageResource(R.drawable.ic_favorite);
+                }else{
+                    ic_love_IB.setImageResource(R.drawable.ic_favorite_border);
+                }
+
+                try {
+                    loveArticle("posts", articleObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
 }

@@ -12,6 +12,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -31,9 +32,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,7 +76,7 @@ import static com.zinalabs.mahberkidanemihret.R.id.love;
 import static com.zinalabs.mahberkidanemihret.R.id.nvView;
 import static java.security.AccessController.getContext;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     Context context;
     Toolbar toolbar;
@@ -85,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     static JSONArray data;
     SnackBar snackBar;
+    RelativeLayout noData;
+    Button goToSaved;
 
     RequestQueue requestQueue = null;
 
@@ -105,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         nvView = (NavigationView) findViewById(R.id.nvView);
+        noData = (RelativeLayout) findViewById(R.id.noData);
+        goToSaved = (Button) findViewById(R.id.goToSaved);
     }
 
     @Override
@@ -115,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
+        goToSaved.setOnClickListener(this);
         enableDrawerHamBurger(this, drawerLayout, toolbar, R.string.app_name);
 
 
@@ -189,8 +198,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.main_activity_menu, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -299,7 +309,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
@@ -322,6 +331,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 addDataToAdapter(response);
+                progressBar.setVisibility(View.INVISIBLE);
+                noData.setVisibility(View.INVISIBLE);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -329,6 +340,7 @@ public class MainActivity extends AppCompatActivity {
                 snackBar = new SnackBar();
                 snackBar.showForever(parent, "Network error. Check your Internet connection!");
                 progressBar.setVisibility(View.INVISIBLE);
+                noData.setVisibility(View.VISIBLE);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -348,5 +360,17 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id=view.getId();
+
+        switch(id){
+            case R.id.goToSaved:
+                Intent intent= new Intent(context, LovesActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }
